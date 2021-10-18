@@ -50,7 +50,7 @@ After building, you should obtain these files:
 
 Copy the sdcard.img onto an SD card with "dd":
 
-  $ sudo dd if=sdcard.img of=/dev/sdX
+  $ sudo dd if=sdcard.img of=/dev/sdX bs=4096
 
 Then, your SD card should be something looks like:
 
