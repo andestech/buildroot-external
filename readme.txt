@@ -4,7 +4,7 @@ Intro
 Andestech AE350 Platform
 
 The AE350 prototype demonstrates the AE350 example platform on the FPGA. 
-This configuration builds with Linux 5.4 and OpenSBI 0.7 tarballs in 
+This configuration builds with Linux 5.4 and OpenSBI 0.7 tarballs from 
 AndeSight 5.0.0 package.
 
 How to build it
@@ -15,13 +15,13 @@ Configure Buildroot
 
   $ make andes_ae350_defconfig
 
-If you want to customize the packages:
+If you want to customize your configuration:
 
   $ make menuconfig
 
 Build everything
 ----------------
-Note: you will need to have access to the network, since Buildroot will
+Note: you will need to access to the network, since Buildroot will
 download the packages' sources.
 
   $ make
@@ -29,7 +29,7 @@ download the packages' sources.
 Result of the build
 -------------------
 
-After building, you should obtain these files:
+After building, you should obtain the following files:
 
   output/images/
   +-- Image
@@ -48,11 +48,11 @@ After building, you should obtain these files:
   +-- u-boot-spl.bin
   +-- u-boot.itb
 
-Copy the sdcard.img onto an SD card with "dd":
+Copy the sdcard.img to a SD card with "dd":
 
   $ sudo dd if=sdcard.img of=/dev/sdX bs=4096
 
-Then, your SD card should be something looks like:
+Your SD card partition should be:
 
   Disk /dev/mmcblk0: 31457280 sectors, 3072M
   Logical sector size: 512
@@ -64,4 +64,4 @@ Then, your SD card should be something looks like:
        1              34          262177  128M u-boot
        2          262178          385057 60.0M rootfs
 
-Insert SD card and reset the board, it will boot Linux from mmc.
+Insert SD card and reset the board, should boot Linux from mmc.
