@@ -13,11 +13,21 @@ How to build it
 Configure Buildroot
 -------------------
 
-  $ make andes_ae350_defconfig
+Note that this repo is not self-contained, please check Buildroot Documentation [1].
+
+  $ make BR2_EXTERNAL=/path/to/this/repo andes_ae350_defconfig
 
 If you want to customize your configuration:
 
   $ make menuconfig
+
+Mentioned tarballs should be configured to the file location, for example
+
+  $ cat .config
+  ...
+  BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="file:///tmp/linux-5.4.tgz"
+  BR2_TARGET_OPENSBI_CUSTOM_TARBALL_LOCATION="file:///tmp/opensbi.tgz"
+  ...
 
 Build everything
 ----------------
@@ -52,7 +62,7 @@ Copy the sdcard.img to a SD card with "dd":
 
   $ sudo dd if=sdcard.img of=/dev/sdX bs=4096
 
-Your SD card partition should be:
+As a reference, the SD card partition will be like:
 
   Disk /dev/mmcblk0: 31457280 sectors, 3072M
   Logical sector size: 512
@@ -64,4 +74,17 @@ Your SD card partition should be:
        1              34          262177  128M u-boot
        2          262178          385057 60.0M rootfs
 
-Insert SD card and reset the board, should boot Linux from mmc.
+Run
+---
+
+Use the SPI_Burn tool [2] to burn the u-boot-spl.bin file onto the flash.  Reference command:
+
+  $ ./SPI_Burn --image u-boot-spl.bin --verify --unlock
+
+Make sure the SD card is inserted and then reset the board, it should boot Linux from mmc.
+
+References
+----------
+
+[1] https://buildroot.org/downloads/manual/manual.html#outside-br-custom
+[2] Included in the collection at https://github.com/andestech/Andes-Development-Kit
