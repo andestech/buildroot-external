@@ -4,8 +4,8 @@ Intro
 Andestech AE350 Platform
 
 The AE350 prototype demonstrates the AE350 example platform on the FPGA. 
-This configuration builds with Linux 5.4 and OpenSBI 0.7 tarballs from 
-AndeSight 5.1.0 package.
+This configuration builds with AndeSight 5.1.0 Linux 5.4 and OpenSBI 0.7
+tarballs and mainline U-boot v2020.10.
 
 How to build it
 ===============
@@ -13,9 +13,13 @@ How to build it
 Configure Buildroot
 -------------------
 
-Note that this repo is not self-contained, please check Buildroot Documentation [1].
+buildroot-external is used with top level Makefile of buildroot [1], please download both
+repositories on your host.
 
-  $ make BR2_EXTERNAL=/path/to/this/repo andes_ae350_defconfig
+  $ git clone https://github.com/buildroot/buildroot.git -b 2022.05
+  $ git clone https://github.com/andestech/buildroot-external.git -b ast-v5_1_0-branch
+  $ cd buildroot
+  $ make BR2_EXTERNAL=$PWD/../buildroot-external andes_ae350_45_defconfig
 
 If you want to customize your configuration:
 
@@ -25,8 +29,8 @@ Mentioned tarballs should be configured to the file location, for example
 
   $ cat .config
   ...
-  BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="file:///tmp/linux-5.4.tgz"
-  BR2_TARGET_OPENSBI_CUSTOM_TARBALL_LOCATION="file:///tmp/opensbi.tgz"
+  BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="file:///tmp/linux-5.4.tar.gz"
+  BR2_TARGET_OPENSBI_CUSTOM_TARBALL_LOCATION="file:///tmp/opensbi.tar.gz"
   ...
 
 Build everything
@@ -42,21 +46,19 @@ Result of the build
 After building, you should obtain the following files:
 
   output/images/
-  +-- Image
   +-- ae350.dtb
   +-- boot.scr
   +-- boot.vfat
   +-- fw_dynamic.bin
   +-- fw_dynamic.elf
-  +-- fw_jump.bin
-  +-- fw_jump.elf
-  +-- rootfs.cpio
+  +-- Image
   +-- rootfs.ext2
   +-- rootfs.ext4 -> rootfs.ext2
   +-- rootfs.tar
   +-- sdcard.img
   +-- u-boot-spl.bin
   +-- u-boot.itb
+
 
 Copy the sdcard.img to a SD card with "dd":
 
